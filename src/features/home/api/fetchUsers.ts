@@ -14,8 +14,7 @@ export async function fetchUsers({
     gender?: string;
 }): Promise<User[]> {
     try {
-        let apiUrl = `${API_BASE_URL}?results=${resultsPerPage}&page=${page}&seed=users-list`;
-
+        let apiUrl = `${API_BASE_URL}?results=${resultsPerPage}&page=${page}&seed=users`;
         if (nationality?.trim()) {
             apiUrl += `&nat=${nationality.trim()}`;
         }
