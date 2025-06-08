@@ -4,6 +4,7 @@ import { User } from '@/types/user.types';
 import { fetchUsers } from '@/features/home/api/fetchUsers';
 import UsersList from '@/components/users-list/UsersList';
 import styles from './HomePage.module.scss';
+import Loading from '@/components/loading/Loading';
 
 const HomePage = () => {
     const [users, setUsers] = useState<User[]>([]);
@@ -37,7 +38,9 @@ const HomePage = () => {
     return (
         <div className={styles.home}>
             {isLoading && (
-                <p className={styles.home__loading}>Loading users...</p>
+                <div className={styles.home__loading}>
+                    <Loading />
+                </div>
             )}
             {error && !isLoading && (
                 <p className={styles.home__error}>{error}</p>

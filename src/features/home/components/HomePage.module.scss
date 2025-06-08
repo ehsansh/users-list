@@ -1,17 +1,20 @@
+%center-message {
+    text-align: center;
+    margin: 60px auto;
+}
+
 .home {
     width: 1100px;
     margin: 60px auto;
+
     &__loading {
-        text-align: center;
-        margin: 60px auto;
+        @extend %center-message;
     }
     &__error {
-        text-align: center;
-        margin: 60px auto;
+        @extend %center-message;
         color: red;
     }
     &__noUser {
-        text-align: center;
-        margin: 60px auto;
+        @extend %center-message;
     }
 }
