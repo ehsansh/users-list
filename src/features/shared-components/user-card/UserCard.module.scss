@@ -1,0 +1,94 @@
+.userCard {
+    position: relative;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+    &__identity {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        width: 390px;
+    }
+
+    &__picture {
+        border-radius: 50%;
+        display: block;
+    }
+
+    &__details {
+        flex-grow: 1;
+    }
+
+    &__nameHeader {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    &__name {
+        margin-top: 0;
+        margin-bottom: 0;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #333;
+    }
+
+    &__nameLink {
+        text-decoration: none;
+        color: inherit;
+        transition: color 0.2s;
+    }
+
+    &__nameLink:hover .userCard__name {
+        color: #0070f3;
+    }
+
+    &__meta {
+        margin: 2px 0;
+        color: #555;
+        font-size: 0.9rem;
+    }
+
+    &__contact {
+        margin-top: 12px;
+    }
+
+    &__phone,
+    &__email,
+    &__address {
+        margin: 2px 0;
+        font-size: 0.9em;
+    }
+
+    &__phone {
+        color: #444;
+    }
+
+    &__emailLink {
+        color: #0070f3;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &__address {
+        color: #777;
+        max-width: 250px;
+    }
+
+    &__nationality {
+        align-self: flex-start;
+        font-size: 1.5em;
+        color: #333;
+    }
+}

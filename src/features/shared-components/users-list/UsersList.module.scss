@@ -1,0 +1,14 @@
+.userGrid {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 900px;
+
+    &__title {
+        margin-bottom: 10px;
+        font-size: 1.8em;
+        text-align: center;
+    }
+}

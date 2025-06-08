@@ -1,8 +1,8 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { User } from '@/types/user.types';
-import { fetchUsers } from '@/features/users-list/api/fetchUsers';
-
+import { fetchUsers } from '@/features/home/api/fetchUsers';
+import UsersList from '@/features/shared-components/users-list/UsersList';
 const HomePage = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [nationality, setNationality] = useState('');
@@ -36,13 +36,7 @@ const HomePage = () => {
         <div>
             {isLoading && <p>Loading...</p>}
             {error && <p style={{ color: 'red' }}>{error}</p>}
-            <ul>
-                {users.map((user, index) => (
-                    <li key={index}>
-                        {user.name.first} {user.name.last}
-                    </li>
-                ))}
-            </ul>
+            <UsersList users={users} />
         </div>
     );
 };
