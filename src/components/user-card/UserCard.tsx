@@ -3,6 +3,8 @@ import { User } from '@/types/user.types';
 import styles from './UserCard.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
+import FavoriteButton from '@/components/user-card/FavoriteButton';
+
 interface UserCardProps {
     user: User;
 }
@@ -26,6 +28,7 @@ const UserCard = ({ user }: UserCardProps) => {
                                 {user.name.last}
                             </h3>
                         </Link>
+                        <FavoriteButton />
                     </div>
 
                     <p className={styles.userCard__meta}>

@@ -1,0 +1,17 @@
+.home {
+    width: 1100px;
+    margin: 60px auto;
+    &__loading {
+        text-align: center;
+        margin: 60px auto;
+    }
+    &__error {
+        text-align: center;
+        margin: 60px auto;
+        color: red;
+    }
+    &__noUser {
+        text-align: center;
+        margin: 60px auto;
+    }
+}
