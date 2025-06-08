@@ -1,8 +1,4 @@
+import HomePage from '@/features/home-page/HomePage';
 export default function Home() {
-    return (
-        <div>
-            <h1>he</h1>
-            <p></p>
-        </div>
-    );
+    return <HomePage />;
 }
