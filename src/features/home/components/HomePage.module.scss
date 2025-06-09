@@ -1,4 +1,9 @@
 .home {
     width: 1100px;
     margin: 60px auto;
+    &__filters {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 }

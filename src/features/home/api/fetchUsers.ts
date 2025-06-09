@@ -21,16 +21,13 @@ export async function fetchUsers({
         if (gender?.trim()) {
             apiUrl += `&gender=${gender.trim().toLowerCase()}`;
         }
-
         const response = await fetch(apiUrl);
         if (!response.ok) {
             throw new Error('Failed to fetch users');
         }
-
         const data: ApiResponse = await response.json();
         return data.results;
     } catch (error) {
-        console.error(error);
         return [];
     }
 }

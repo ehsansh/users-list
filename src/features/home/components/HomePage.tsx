@@ -8,6 +8,7 @@ import NationalityFilter from '@/features/home/components/NationalityFilter';
 import GenderFilter from '@/features/home/components/GenderFilter';
 import StatusIndicator from '@/features/home/components/StatusIndicator';
 import DownloadCurrentUsersListButton from '@/features/home/components/DownloadCurrentUsersListButton';
+import DownloadFromApiButton from '@/features/home/components/DownloadFromApiButton';
 
 const HomePage = () => {
     const [users, setUsers] = useState<User[]>([]);
@@ -65,17 +66,29 @@ const HomePage = () => {
 
     return (
         <div className={styles.home}>
-            <NationalityFilter
-                currentNationality={nationality}
-                setNationality={setNationality}
-                disabled={disabled}
-            />
-            <GenderFilter
-                currentGender={gender}
-                setGender={setGender}
-                disabled={disabled}
-            />
-            <DownloadCurrentUsersListButton users={users} disabled={disabled} />
+            <div className={styles.home__filters}>
+                <NationalityFilter
+                    currentNationality={nationality}
+                    setNationality={setNationality}
+                    disabled={disabled}
+                />
+                <GenderFilter
+                    currentGender={gender}
+                    setGender={setGender}
+                    disabled={disabled}
+                />
+                <DownloadCurrentUsersListButton
+                    users={users}
+                    disabled={disabled}
+                />
+                <DownloadFromApiButton
+                    resultsToDownload={100}
+                    disabled={disabled}
+                    format={'csv'}
+                    genderFilter={gender}
+                    nationalityFilter={nationality}
+                />
+            </div>
             {(!isLoading || page > currentPage.current) && users.length > 0 && (
                 <UsersList
                     users={users}
