@@ -16,18 +16,21 @@ const HomePage = () => {
     const [error, setError] = useState('');
     const [hasMore, setHasMore] = useState(true);
     const [page, setPage] = useState<number>(1);
+    const currentPage = useRef(1);
 
-    const fetchUserData = async (hasPageChanged: boolean = false) => {
+    const fetchUserData = async () => {
+        const hasPageChanged = currentPage.current !== page;
         if (!hasMore) return;
         setIsLoading(true);
         try {
             const fetchedUsers = await fetchUsers({
-                page: page,
+                page: hasPageChanged ? page : 1,
                 resultsPerPage: 5,
                 nationality,
                 gender
             });
             if (hasPageChanged) {
+                currentPage.current = page;
                 setUsers((pervUsers) => [...pervUsers, ...fetchedUsers]);
             } else setUsers(fetchedUsers);
             setHasMore(fetchedUsers.length === 5);
@@ -39,12 +42,8 @@ const HomePage = () => {
     };
 
     useEffect(() => {
-        fetchUserData(true);
-    }, [page]);
-
-    useEffect(() => {
         fetchUserData();
-    }, [nationality, gender]);
+    }, [nationality, gender, page]);
 
     const observer = useRef<IntersectionObserver | null>(null);
     const lastUserElementRef = useCallback(
