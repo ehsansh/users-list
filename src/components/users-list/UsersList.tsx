@@ -11,7 +11,6 @@ const UsersList = ({ users, lastUserElementRef }: UsersListProps) => {
     const lastElementIndex = users.length - 1;
     return (
         <div className={styles.userGrid}>
-            <h2 className={styles.userGrid__title}>Fetched User Data:</h2>
             {users.map((user: User, index: number) => (
                 <div
                     key={user.login.username}

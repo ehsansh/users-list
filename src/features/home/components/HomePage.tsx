@@ -16,47 +16,32 @@ const HomePage = () => {
     const [hasMore, setHasMore] = useState(true);
     const [page, setPage] = useState<number>(1);
 
-    useEffect(() => {
+    const fetchUserData = async (hasPageChanged: boolean = false) => {
         if (!hasMore) return;
-        const fetchUserData = async () => {
-            setIsLoading(true);
-            try {
-                const fetchedUsers = await fetchUsers({
-                    page: page,
-                    resultsPerPage: 5,
-                    nationality,
-                    gender
-                });
+        setIsLoading(true);
+        try {
+            const fetchedUsers = await fetchUsers({
+                page: page,
+                resultsPerPage: 5,
+                nationality,
+                gender
+            });
+            if (hasPageChanged) {
                 setUsers((pervUsers) => [...pervUsers, ...fetchedUsers]);
-                setHasMore(fetchedUsers.length === 5);
-            } catch (err) {
-                setError('Failed to fetch users');
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        fetchUserData();
+            } else setUsers(fetchedUsers);
+            setHasMore(fetchedUsers.length === 5);
+        } catch (err) {
+            setError('Failed to fetch users');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchUserData(true);
     }, [page]);
 
     useEffect(() => {
-        if (!hasMore) return;
-        const fetchUserData = async () => {
-            setIsLoading(true);
-            try {
-                const fetchedUsers = await fetchUsers({
-                    page: page,
-                    resultsPerPage: 5,
-                    nationality,
-                    gender
-                });
-                setUsers(fetchedUsers);
-                setHasMore(fetchedUsers.length === 5);
-            } catch (err) {
-                setError('Failed to fetch users');
-            } finally {
-                setIsLoading(false);
-            }
-        };
         fetchUserData();
     }, [nationality, gender]);
 
