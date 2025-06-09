@@ -5,14 +5,14 @@ import Image from 'next/image';
 
 interface NationalityFilterProps {
     currentNationality: string;
-    onNationalityChange: (nationality: string) => void;
-    hasUsers: boolean;
+    setNationality: (nationality: string) => void;
+    disabled: boolean;
 }
 
 const NationalityFilter = ({
     currentNationality,
-    onNationalityChange,
-    hasUsers
+    setNationality,
+    disabled
 }: NationalityFilterProps) => {
     const [inputValue, setInputValue] = useState('');
     const [showDropdown, setShowDropdown] = useState(false);
@@ -49,7 +49,7 @@ const NationalityFilter = ({
             setShowDropdown(true);
         }
         if (event.target.value === '') {
-            onNationalityChange('');
+            setNationality('');
         }
     };
 
@@ -58,13 +58,13 @@ const NationalityFilter = ({
     };
 
     const handleCountrySelect = (countryCode: string) => {
-        onNationalityChange(countryCode);
+        setNationality(countryCode);
         setInputValue(getCountryName(countryCode));
         setShowDropdown(false);
     };
 
     const clearFilter = () => {
-        onNationalityChange('');
+        setNationality('');
         setInputValue('');
         setShowDropdown(false);
     };
@@ -88,7 +88,7 @@ const NationalityFilter = ({
                     placeholder="Search or select a country"
                     className={styles.filterInput}
                     autoComplete="off"
-                    disabled={!hasUsers}
+                    disabled={disabled}
                 />
                 {currentNationality && (
                     <button

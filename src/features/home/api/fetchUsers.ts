@@ -14,7 +14,7 @@ export async function fetchUsers({
     gender?: string;
 }): Promise<User[]> {
     try {
-        let apiUrl = `${API_BASE_URL}?results=${resultsPerPage}&page=${page}&seed=users`;
+        let apiUrl = `${API_BASE_URL}?results=${resultsPerPage}`;
         if (nationality?.trim()) {
             apiUrl += `&nat=${nationality.trim()}`;
         }
@@ -22,12 +22,17 @@ export async function fetchUsers({
             apiUrl += `&gender=${gender.trim().toLowerCase()}`;
         }
 
+        apiUrl += `&page=${page}&seed=users`;
+
+        console.log(apiUrl);
+
         const response = await fetch(apiUrl);
         if (!response.ok) {
             throw new Error('Failed to fetch users');
         }
 
         const data: ApiResponse = await response.json();
+        console.log(data.results);
         return data.results;
     } catch (error) {
         console.error(error);

@@ -6,6 +6,7 @@ import UsersList from '@/components/users-list/UsersList';
 import styles from './HomePage.module.scss';
 import Loading from '@/components/loading/Loading';
 import NationalityFilter from '@/features/home/components/NationalityFilter';
+import GenderFilter from '@/features/home/components/GenderFilter';
 
 const HomePage = () => {
     const [users, setUsers] = useState<User[]>([]);
@@ -64,8 +65,13 @@ const HomePage = () => {
         <div className={styles.home}>
             <NationalityFilter
                 currentNationality={nationality}
-                onNationalityChange={setNationality}
-                hasUsers={users && users.length > 0}
+                setNationality={setNationality}
+                disabled={!(users && users.length > 0)}
+            />
+            <GenderFilter
+                currentGender={gender}
+                setGender={setGender}
+                disabled={!(users && users.length > 0)}
             />
             {isLoading && (
                 <div className={styles.home__loading}>
@@ -78,7 +84,7 @@ const HomePage = () => {
             {!isLoading && users.length == 0 && (
                 <p className={styles.home__noUser}>No users found</p>
             )}
-            {users.length > 0 && (
+            {!isLoading && users.length > 0 && (
                 <UsersList
                     users={users}
                     lastUserElementRef={lastUserElementRef}
