@@ -77,6 +77,11 @@ const HomePage = () => {
 
     return (
         <div className={styles.home}>
+            <NationalityFilter
+                currentNationality={nationality}
+                onNationalityChange={setNationality}
+                hasUsers={users && users.length > 0}
+            />
             {isLoading && (
                 <div className={styles.home__loading}>
                     <Loading />
@@ -89,16 +94,10 @@ const HomePage = () => {
                 <p className={styles.home__noUser}>No users found</p>
             )}
             {users.length > 0 && (
-                <>
-                    <NationalityFilter
-                        currentNationality={nationality}
-                        onNationalityChange={setNationality}
-                    />
-                    <UsersList
-                        users={users}
-                        lastUserElementRef={lastUserElementRef}
-                    />
-                </>
+                <UsersList
+                    users={users}
+                    lastUserElementRef={lastUserElementRef}
+                />
             )}
         </div>
     );

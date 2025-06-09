@@ -6,11 +6,13 @@ import Image from 'next/image';
 interface NationalityFilterProps {
     currentNationality: string;
     onNationalityChange: (nationality: string) => void;
+    hasUsers: boolean;
 }
 
 const NationalityFilter = ({
     currentNationality,
-    onNationalityChange
+    onNationalityChange,
+    hasUsers
 }: NationalityFilterProps) => {
     const [inputValue, setInputValue] = useState('');
     const [showDropdown, setShowDropdown] = useState(false);
@@ -86,6 +88,7 @@ const NationalityFilter = ({
                     placeholder="Search or select a country"
                     className={styles.filterInput}
                     autoComplete="off"
+                    disabled={!hasUsers}
                 />
                 {currentNationality && (
                     <button
