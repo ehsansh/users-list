@@ -7,6 +7,7 @@ import styles from './HomePage.module.scss';
 import NationalityFilter from '@/features/home/components/NationalityFilter';
 import GenderFilter from '@/features/home/components/GenderFilter';
 import StatusIndicator from '@/features/home/components/StatusIndicator';
+import DownloadCurrentUsersListButton from '@/features/home/components/DownloadCurrentUsersListButton';
 
 const HomePage = () => {
     const [users, setUsers] = useState<User[]>([]);
@@ -60,19 +61,21 @@ const HomePage = () => {
         [isLoading, hasMore]
     );
 
+    const disabled = !(users && users.length > 0);
+
     return (
         <div className={styles.home}>
             <NationalityFilter
                 currentNationality={nationality}
                 setNationality={setNationality}
-                disabled={!(users && users.length > 0)}
+                disabled={disabled}
             />
             <GenderFilter
                 currentGender={gender}
                 setGender={setGender}
-                disabled={!(users && users.length > 0)}
+                disabled={disabled}
             />
-
+            <DownloadCurrentUsersListButton users={users} disabled={disabled} />
             {(!isLoading || page > currentPage.current) && users.length > 0 && (
                 <UsersList
                     users={users}
