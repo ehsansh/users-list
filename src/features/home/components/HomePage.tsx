@@ -84,7 +84,7 @@ const HomePage = () => {
             {!isLoading && users.length == 0 && (
                 <p className={styles.home__noUser}>No users found</p>
             )}
-            {!isLoading && users.length > 0 && (
+            {((!isLoading && page == 1) || page > 1) && users.length > 0 && (
                 <UsersList
                     users={users}
                     lastUserElementRef={lastUserElementRef}
