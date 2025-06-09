@@ -5,6 +5,7 @@ import { fetchUsers } from '@/features/home/api/fetchUsers';
 import UsersList from '@/components/users-list/UsersList';
 import styles from './HomePage.module.scss';
 import Loading from '@/components/loading/Loading';
+import NationalityFilter from '@/features/home/components/NationalityFilter';
 
 const HomePage = () => {
     const [users, setUsers] = useState<User[]>([]);
@@ -35,7 +36,29 @@ const HomePage = () => {
             }
         };
         fetchUserData();
-    }, [nationality, gender, page]);
+    }, [page]);
+
+    useEffect(() => {
+        if (!hasMore) return;
+        const fetchUserData = async () => {
+            setIsLoading(true);
+            try {
+                const fetchedUsers = await fetchUsers({
+                    page: page,
+                    resultsPerPage: 5,
+                    nationality,
+                    gender
+                });
+                setUsers(fetchedUsers);
+                setHasMore(fetchedUsers.length === 5);
+            } catch (err) {
+                setError('Failed to fetch users');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchUserData();
+    }, [nationality, gender]);
 
     const observer = useRef<IntersectionObserver | null>(null);
     const lastUserElementRef = useCallback(
@@ -66,10 +89,16 @@ const HomePage = () => {
                 <p className={styles.home__noUser}>No users found</p>
             )}
             {users.length > 0 && (
-                <UsersList
-                    users={users}
-                    lastUserElementRef={lastUserElementRef}
-                />
+                <>
+                    <NationalityFilter
+                        currentNationality={nationality}
+                        onNationalityChange={setNationality}
+                    />
+                    <UsersList
+                        users={users}
+                        lastUserElementRef={lastUserElementRef}
+                    />
+                </>
             )}
         </div>
     );

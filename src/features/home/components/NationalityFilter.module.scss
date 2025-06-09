@@ -1,0 +1,79 @@
+.filterContainer {
+    position: relative;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.filterLabel {
+    margin-bottom: 8px;
+    font-size: 1rem;
+    color: #333;
+}
+
+.filterInputContainer {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+}
+
+.filterInput {
+    padding: 10px;
+    padding-right: 30px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.clearButton {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #888;
+}
+
+.clearButton:hover {
+    color: #333;
+}
+
+.dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.dropdownItem {
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.dropdownItem:hover {
+    background-color: #f0f0f0;
+}
+
+.dropdownItem img {
+    margin-right: 10px;
+    border: 1px solid #eee;
+}
+
+.filterInput:disabled {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+}
