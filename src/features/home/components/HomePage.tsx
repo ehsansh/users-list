@@ -4,9 +4,9 @@ import { User } from '@/types/user.types';
 import { fetchUsers } from '@/features/home/api/fetchUsers';
 import UsersList from '@/components/users-list/UsersList';
 import styles from './HomePage.module.scss';
-import Loading from '@/components/loading/Loading';
 import NationalityFilter from '@/features/home/components/NationalityFilter';
 import GenderFilter from '@/features/home/components/GenderFilter';
+import StatusIndicator from '@/features/home/components/StatusIndicator';
 
 const HomePage = () => {
     const [users, setUsers] = useState<User[]>([]);
@@ -72,23 +72,18 @@ const HomePage = () => {
                 setGender={setGender}
                 disabled={!(users && users.length > 0)}
             />
-            {isLoading && (
-                <div className={styles.home__loading}>
-                    <Loading />
-                </div>
-            )}
-            {error && !isLoading && (
-                <p className={styles.home__error}>{error}</p>
-            )}
-            {!isLoading && users.length == 0 && (
-                <p className={styles.home__noUser}>No users found</p>
-            )}
+
             {(!isLoading || page > currentPage.current) && users.length > 0 && (
                 <UsersList
                     users={users}
                     lastUserElementRef={lastUserElementRef}
                 />
             )}
+            <StatusIndicator
+                isLoading={isLoading}
+                error={error}
+                dataLength={users.length}
+            />
         </div>
     );
 };

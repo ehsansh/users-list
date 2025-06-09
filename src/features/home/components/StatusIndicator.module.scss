@@ -1,0 +1,17 @@
+%center-message {
+    text-align: center;
+    margin: 60px auto;
+}
+
+.loading {
+    @extend %center-message;
+}
+
+.error {
+    @extend %center-message;
+    color: red;
+}
+
+.noData {
+    @extend %center-message;
+}
