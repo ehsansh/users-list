@@ -17,7 +17,7 @@ const getFavoriteUsers = (): User[] => {
     }
 };
 
-const setFavoriteUsers = (users: User[]) => {
+const persistFavoriteUsers = (users: User[]) => {
     try {
         localStorage.setItem(FAVORITES_KEY, JSON.stringify(users));
     } catch (error) {
@@ -26,46 +26,38 @@ const setFavoriteUsers = (users: User[]) => {
 };
 
 export const useFavorite = (user: Partial<User> | null) => {
+    const [favoriteUsers, setFavoriteUsers] = useState<User[]>([]);
     const [isFavorite, setIsFavorite] = useState(false);
 
-    const [favoriteUsers, setFavoriteUsersState] =
-        useState<User[]>(getFavoriteUsers());
+    useEffect(() => {
+        setFavoriteUsers(getFavoriteUsers());
+    }, []);
 
     useEffect(() => {
-        if (!user?.email) return;
-        const favorites = getFavoriteUsers();
-        setFavoriteUsersState(favorites); // Update local state from storage
-        const isUserFavorite = favorites.some(
-            (favUser) => favUser.email === user.email
-        );
+        const isUserFavorite =
+            !!user?.email &&
+            favoriteUsers.some((favUser) => favUser.email === user.email);
         setIsFavorite(isUserFavorite);
-    }, [user]);
+    }, [user, favoriteUsers]);
 
     const toggleFavorite = useCallback(() => {
         if (!user || !user.email) return;
 
-        const favorites = getFavoriteUsers();
-        const userIndex = favorites.findIndex(
+        const userIndex = favoriteUsers.findIndex(
             (favUser) => favUser.email === user.email
         );
 
         let newFavorites: User[];
 
         if (userIndex > -1) {
-            // Remove from favorites
-            newFavorites = [
-                ...favorites.slice(0, userIndex),
-                ...favorites.slice(userIndex + 1)
-            ];
-            setIsFavorite(false);
+            newFavorites = favoriteUsers.filter((_, i) => i !== userIndex);
         } else {
-            // Add to favorites, ensuring we have a complete User object if possible
-            newFavorites = [...favorites, user as User];
-            setIsFavorite(true);
+            newFavorites = [...favoriteUsers, user as User];
         }
 
         setFavoriteUsers(newFavorites);
-    }, [user]);
+        persistFavoriteUsers(newFavorites);
+    }, [user, favoriteUsers]);
 
     return { isFavorite, toggleFavorite, favoriteUsers };
 };
