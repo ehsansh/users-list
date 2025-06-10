@@ -1,0 +1,17 @@
+.favoriteUsersPage {
+    padding: 2rem;
+
+    &__title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        color: #333;
+        text-align: center;
+    }
+
+    &__noUsers {
+        font-size: 1.2rem;
+        color: #666;
+        text-align: center;
+        margin-top: 4rem;
+    }
+}

@@ -28,9 +28,13 @@ const setFavoriteUsers = (users: User[]) => {
 export const useFavorite = (user: Partial<User> | null) => {
     const [isFavorite, setIsFavorite] = useState(false);
 
+    const [favoriteUsers, setFavoriteUsersState] =
+        useState<User[]>(getFavoriteUsers());
+
     useEffect(() => {
         if (!user?.email) return;
         const favorites = getFavoriteUsers();
+        setFavoriteUsersState(favorites); // Update local state from storage
         const isUserFavorite = favorites.some(
             (favUser) => favUser.email === user.email
         );
@@ -63,5 +67,5 @@ export const useFavorite = (user: Partial<User> | null) => {
         setFavoriteUsers(newFavorites);
     }, [user]);
 
-    return { isFavorite, toggleFavorite };
-}; 
+    return { isFavorite, toggleFavorite, favoriteUsers };
+};
