@@ -12,9 +12,16 @@
         transform 0.2s;
 }
 
-.favoriteButton svg {
+.favoriteButton svg {}
+
+.small svg {
     width: 20px;
     height: 20px;
+}
+
+.large svg {
+    width: 32px;
+    height: 32px;
 }
 
 .favoriteButton:hover {

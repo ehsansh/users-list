@@ -22,7 +22,10 @@ const UserCard = ({ user }: UserCardProps) => {
                 />
                 <div className={styles.userCard__info}>
                     <div className={styles.userCard__nameHeader}>
-                        <Link href={'/'} className={styles.userCard__nameLink}>
+                        <Link
+                            href={`/profile?name=${user.name.first} ${user.name.last}&email=${user.email}&username=${user.login.username}`}
+                            className={styles.userCard__nameLink}
+                        >
                             <h3 className={styles.userCard__name}>
                                 {user.name.title} {user.name.first}{' '}
                                 {user.name.last}

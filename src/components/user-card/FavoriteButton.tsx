@@ -1,8 +1,14 @@
 import React from 'react';
 import styles from './FavoriteButton.module.scss';
-const FavoriteButton = () => {
+import clsx from 'clsx';
+
+interface FavoriteButtonProps {
+    size?: 'small' | 'large';
+}
+
+const FavoriteButton = ({ size = 'small' }: FavoriteButtonProps) => {
     return (
-        <button className={`${styles.favoriteButton}`}>
+        <button className={clsx(styles.favoriteButton, styles[size])}>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
