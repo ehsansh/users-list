@@ -1,3 +1,17 @@
+
+/*
+  TODO: Accessibility Improvements for this custom combobox.
+
+  This custom select component currently has accessibility limitations:
+  1. It is not fully keyboard-operable (arrow keys, Enter to select).
+  2. It does not correctly communicate its state (expanded, selected option) to screen readers.
+
+  To fix this, two paths can be taken:
+    - Use a native <select> element, which provides full accessibility out-of-the-box but we can not add flags to it.
+    - Re-implement this component following the WAI-ARIA Combobox pattern. 
+*/
+
+
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './NationalityFilter.module.scss';
 import { countryList } from '@/data/countries';
