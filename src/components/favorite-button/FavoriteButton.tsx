@@ -20,6 +20,8 @@ const FavoriteButton = ({ size = 'small', user }: FavoriteButtonProps) => {
                 isFavorite && styles.isFavorite
             )}
             onClick={toggleFavorite}
+            aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+            aria-pressed={isFavorite}
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
