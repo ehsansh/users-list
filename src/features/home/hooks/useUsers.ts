@@ -3,6 +3,7 @@ import { User } from '@/types/user.types';
 import { fetchUsers } from '@/features/home/api/fetchUsers';
 
 export const useUsers = () => {
+    const resultsPerPage = parseInt(process.env.NEXT_PUBLIC_RESULTS_PER_PAGE || '5');
     const [users, setUsers] = useState<User[]>([]);
     const [nationality, setNationality] = useState('');
     const [gender, setGender] = useState('');
@@ -19,7 +20,7 @@ export const useUsers = () => {
         try {
             const fetchedUsers = await fetchUsers({
                 page: hasPageChanged ? page : 1,
-                resultsPerPage: 5,
+                resultsPerPage: resultsPerPage,
                 nationality,
                 gender
             });
@@ -27,7 +28,7 @@ export const useUsers = () => {
                 currentPage.current = page;
                 setUsers((pervUsers) => [...pervUsers, ...fetchedUsers]);
             } else setUsers(fetchedUsers);
-            setHasMore(fetchedUsers.length === 5);
+            setHasMore(fetchedUsers.length === resultsPerPage);
         } catch (err) {
             setError('Failed to fetch users');
         } finally {

@@ -1,6 +1,6 @@
 import { User, ApiResponse } from '@/types/user.types';
 
-const API_BASE_URL = 'https://randomuser.me/api/';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export async function fetchUsers({
     page = 1,

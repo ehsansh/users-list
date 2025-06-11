@@ -93,7 +93,7 @@ const UserCard = ({ user }: UserCardProps) => {
             {user.nat && user.location?.country && (
                 <div className={styles.userCard__nationality}>
                     <Image
-                        src={`https://flagcdn.com/w40/${user.nat.toLowerCase()}.png`}
+                        src={`${process.env.NEXT_PUBLIC_FLAG_BASE_URL}${user.nat.toLowerCase()}.png`}
                         alt={user.location.country || ''}
                         width={30}
                         height={20}
