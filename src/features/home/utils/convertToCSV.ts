@@ -10,9 +10,6 @@ const escapeCsvValue = (value: string | number): string => {
 };
 
 export const convertToCSV = (users: User[]): string => {
-    if (!users || users.length === 0) {
-        return '';
-    }
     const headers = [
         'gender',
         'title',
@@ -30,6 +27,11 @@ export const convertToCSV = (users: User[]): string => {
         'postcode'
     ];
     const csvRows = [headers.join(',')];
+
+    if (!users || users.length === 0) {
+        return csvRows.join('\n'); // Return headers even if there are no users
+    }
+
     users.forEach((user) => {
         const row = [
             escapeCsvValue(user.gender),
