@@ -5,6 +5,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import FavoriteButton from '@/components/favorite-button/FavoriteButton';
 import UserIcon from '@/components/icons/UserIcon';
+import PhoneIcon from '@/components/icons/PhoneIcon';
+import EmailIcon from '@/components/icons/EmailIcon';
+import AddressIcon from '@/components/icons/AddressIcon';
 
 interface UserCardProps {
     user: Partial<User>;
@@ -68,24 +71,33 @@ const UserCard = ({ user }: UserCardProps) => {
                 <div className={styles.userCard__details}>
                     <div className={styles.userCard__contact}>
                         {user.phone && (
-                            <p className={styles.userCard__phone}>
-                                {user.phone}
-                            </p>
+                            <div className={styles.userCard__contactItem}>
+                                <PhoneIcon className={styles.userCard__contactIcon} />
+                                <p className={styles.userCard__phone}>
+                                    {user.phone}
+                                </p>
+                            </div>
                         )}
                         {user.email && (
-                            <p className={styles.userCard__email}>
-                                <a
-                                    href={`mailto:${user.email}`}
-                                    className={styles.userCard__emailLink}
-                                >
-                                    {user.email}
-                                </a>
-                            </p>
+                            <div className={styles.userCard__contactItem}>
+                                <EmailIcon className={styles.userCard__contactIcon} />
+                                <p className={styles.userCard__email}>
+                                    <a
+                                        href={`mailto:${user.email}`}
+                                        className={styles.userCard__emailLink}
+                                    >
+                                        {user.email}
+                                    </a>
+                                </p>
+                            </div>
                         )}
                         {fullAddress && (
-                            <p className={styles.userCard__address}>
-                                {fullAddress}
-                            </p>
+                            <div className={styles.userCard__contactItem}>
+                                <AddressIcon className={styles.userCard__contactIcon} />
+                                <p className={styles.userCard__address}>
+                                    {fullAddress}
+                                </p>
+                            </div>
                         )}
                     </div>
                 </div>
