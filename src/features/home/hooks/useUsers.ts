@@ -21,6 +21,13 @@ export const useUsers = () => {
     // Ref to store the debounce timer
     const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
+    // This effect resets the user list and pagination whenever a filter is changed.
+    useEffect(() => {
+        setPage(1);
+        setUsers([]);
+        setHasMore(true);
+    }, [nationality, gender]);
+
     const fetchUserData = useCallback(() => {
         if (!hasMore) return;
 
@@ -39,8 +46,10 @@ export const useUsers = () => {
                 });
 
                 currentPage.current = page;
-                // Append new users and limit the total array to 200 for performance
-                setUsers((prevUsers) => [...prevUsers.slice(-200), ...fetchedUsers]);
+                // When page is 1, replace users. Otherwise, append.
+                setUsers((prevUsers) =>
+                    page === 1 ? fetchedUsers : [...prevUsers.slice(-200), ...fetchedUsers]
+                );
                 setHasMore(fetchedUsers.length === resultsPerPage);
             } catch {
                 setError('Failed to fetch users');
@@ -50,10 +59,10 @@ export const useUsers = () => {
         }, 300); // Debounce delay
     }, [page, nationality, gender, hasMore]);
 
-    // Re-fetch users whenever filters or the page number changes
+    // This effect is now responsible only for triggering the fetch.
     useEffect(() => {
         fetchUserData();
-    }, [nationality, gender, page]);
+    }, [fetchUserData]);
 
     // Intersection Observer for implementing infinite scroll
     const observer = useRef<IntersectionObserver | null>(null);
