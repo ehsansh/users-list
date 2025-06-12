@@ -44,20 +44,26 @@ export const useFavorite = (user: Partial<User> | null) => {
     const [isFavorite, setIsFavorite] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
+    // Listen for changes in favorites across components
+    // This effect sets up a global event listener to keep favorites in sync
     useEffect(() => {
         const handleFavoritesChange = () => {
             setFavoriteUsers(getFavoriteUsers());
         };
 
+        // Initial load of favorites
         handleFavoritesChange();
         setIsLoading(false);
 
+        // Set up event listener for cross-component synchronization
         window.addEventListener(FAVORITES_CHANGED_EVENT, handleFavoritesChange);
         return () => {
             window.removeEventListener(FAVORITES_CHANGED_EVENT, handleFavoritesChange);
         };
     }, []);
 
+    // Update isFavorite state whenever user or favoriteUsers changes
+    // This ensures the favorite status is always in sync with the current state
     useEffect(() => {
         const isUserFavorite =
             !!user?.email &&
@@ -65,25 +71,29 @@ export const useFavorite = (user: Partial<User> | null) => {
         setIsFavorite(isUserFavorite);
     }, [user, favoriteUsers]);
 
+    // Toggle favorite status for the current user
+    // Uses a custom event to notify other components of the change
     const toggleFavorite = useCallback(() => {
         if (!user || !user.email) return;
 
         const currentFavorites = getFavoriteUsers();
 
+        // Find if user is already in favorites
         const userIndex = currentFavorites.findIndex(
             (favUser) => favUser.email === user.email
         );
 
         let newFavorites: User[];
 
+        // Remove user if already favorited, add if not
         if (userIndex > -1) {
             newFavorites = currentFavorites.filter((_, i) => i !== userIndex);
         } else {
             newFavorites = [...currentFavorites, user as User];
         }
 
+        // Persist changes and notify other components
         persistFavoriteUsers(newFavorites);
-
         window.dispatchEvent(new CustomEvent(FAVORITES_CHANGED_EVENT));
     }, [user]);
 
