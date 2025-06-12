@@ -60,49 +60,47 @@ Follow these instructions to get a local copy of the project up and running for 
     ```
     Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
+## Running with Docker
+
+You can also run this project in a container using Docker. This is a great way to ensure a consistent environment for the application.
+
+### Prerequisites
+
+-   [Docker](https://docs.docker.com/engine/install/) installed on your machine.
+
+### Build & Run
+
+1.  **Ensure you have a `.env` file** with the required variables as described in the "Installation & Setup" section.
+
+2.  **Build the Docker image:**
+    You need to pass your environment variables from the `.env` file to the Docker build command.
+
+    **Method 1: Recommended (Reliable & Explicit)**
+    This command ensures a successful build by reading variables directly from your `.env` file and passing them to Docker. It's the safest method and will work in any shell.
+    ```bash
+    export $(grep -v '^#' .env | xargs) && docker build \
+      --build-arg NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL} \
+      --build-arg NEXT_PUBLIC_FLAG_BASE_URL=${NEXT_PUBLIC_FLAG_BASE_URL} \
+      --build-arg NEXT_PUBLIC_RESULTS_PER_PAGE=${NEXT_PUBLIC_RESULTS_PER_PAGE} \
+      -t my-nextjs-app .
+    ```
+
+    **Method 2: Simpler (Requires Pre-Exported Variables)**
+    You can use a simpler command *only if* you have already exported the environment variables from your `.env` file into your current terminal session.
+    ```bash
+    # Note: This will only work if the NEXT_PUBLIC_* variables are already in your environment!
+    docker build -t my-nextjs-app .
+    ```
+
+3.  **Run the Docker container:**
+    This command starts a container from the image you just built.
+
+    ```bash
+    docker run -p 3000:3000 my-nextjs-app
+    ```
+
+    The application will now be running and accessible at [http://localhost:3000](http://localhost:3000).
+
 ## Running Tests
 
 To run the automated tests for this project, use the following command:
-
-```bash
-npm test
-```
-
-## Project Structure
-
-The project follows a feature-sliced design approach to keep the codebase organized, scalable, and maintainable.
-
--   `src/app/`: Contains global layouts and page routing, adhering to the Next.js App Router conventions.
--   `src/components/`: Houses reusable, general-purpose ("dumb") components that are used across multiple features (e.g., `Header`, `Loading`, `UserCard`).
--   `src/features/`: Contains the core application features (e.g., `home`, `profile`, `favorite-users`). Each feature folder encapsulates its own components, hooks, API calls, and logic.
--   `src/data/`: Contains countries list.
--   `src/types/`: Typescript types and interfaces.
--   **Styling:** Component-level styling is achieved using SCSS Modules to ensure styles are locally scoped and prevent naming collisions.
--   **State Management:** State is managed primarily with React Hooks (`useState`, `useEffect`, `useCallback`). For synchronizing the "favorite" status across components, the application uses a lightweight combination of `localStorage` and a custom browser event (`favoritesChanged`), avoiding the need for a heavier global state library.
-
-## Performance & Optimization
-
-To ensure a smooth user experience, the following performance optimizations have been implemented:
-
--   **Debouncing:** The `useUsers` hook implements debouncing for API requests to prevent rapid and unnecessary network calls.
--   **State-Level Throttling:** The `useUsers` hook is designed to keep a maximum of 200 users in the state at any time. This prevents the React component tree from becoming excessively large, which could lead to slower rendering and increased memory usage.
--   **Component Memoization:** `React.memo` is used on the `UsersList` component to prevent unnecessary re-renders, ensuring that the list only updates when the user data actually changes.
-
-### Future Improvements: Virtualization
-
-For applications expecting to render many thousands of items, a more advanced optimization would be to implement "windowing" or "virtualization." A library like [**react-window**](https://www.npmjs.com/package/react-window) could be used. This technique ensures that only the items currently visible in the viewport are mounted in the DOM, offering significant performance gains for extremely large lists.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
