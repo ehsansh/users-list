@@ -4,7 +4,7 @@ import UserCard from '@/components/user-card/UserCard';
 import styles from './UsersList.module.scss';
 
 interface UsersListProps {
-    users: User[];
+    users: Partial<User>[];
     lastUserElementRef?: (node: HTMLDivElement | null) => void;
 }
 
@@ -13,9 +13,9 @@ const UsersList = ({ users, lastUserElementRef }: UsersListProps) => {
 
     // Memoizing the mapped user list to prevent unnecessary recalculations
     const memoizedUserList = useMemo(() => {
-        return users.map((user: User, index: number) => (
+        return users.map((user, index) => (
             <div
-                key={user.login.username}
+                key={user.email || index}
                 ref={index === lastElementIndex ? lastUserElementRef : null}
             >
                 <UserCard user={user} />

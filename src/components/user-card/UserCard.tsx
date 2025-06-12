@@ -62,7 +62,7 @@ const UserCard = ({ user }: UserCardProps) => {
                     </div>
 
                     <p className={styles.userCard__meta}>
-                        {user.login?.username}
+                        {user?.login?.username}
                         {user.gender && ` / ${user.gender}`}
                     </p>
                 </div>
