@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { User } from '@/types/user.types';
 
 const FAVORITES_KEY = 'favoriteUsers';
+const FAVORITES_CHANGED_EVENT = 'favoritesChanged';
 
 const getFavoriteUsers = (): User[] => {
     try {
@@ -17,6 +18,8 @@ const getFavoriteUsers = (): User[] => {
     }
 };
 
+
+
 const persistFavoriteUsers = (users: User[]) => {
     try {
         localStorage.setItem(FAVORITES_KEY, JSON.stringify(users));
@@ -30,7 +33,16 @@ export const useFavorite = (user: Partial<User> | null) => {
     const [isFavorite, setIsFavorite] = useState(false);
 
     useEffect(() => {
-        setFavoriteUsers(getFavoriteUsers());
+        const handleFavoritesChange = () => {
+            setFavoriteUsers(getFavoriteUsers());
+        };
+
+        handleFavoritesChange();
+
+        window.addEventListener(FAVORITES_CHANGED_EVENT, handleFavoritesChange);
+        return () => {
+            window.removeEventListener(FAVORITES_CHANGED_EVENT, handleFavoritesChange);
+        };
     }, []);
 
     useEffect(() => {
@@ -43,21 +55,24 @@ export const useFavorite = (user: Partial<User> | null) => {
     const toggleFavorite = useCallback(() => {
         if (!user || !user.email) return;
 
-        const userIndex = favoriteUsers.findIndex(
+        const currentFavorites = getFavoriteUsers();
+
+        const userIndex = currentFavorites.findIndex(
             (favUser) => favUser.email === user.email
         );
 
         let newFavorites: User[];
 
         if (userIndex > -1) {
-            newFavorites = favoriteUsers.filter((_, i) => i !== userIndex);
+            newFavorites = currentFavorites.filter((_, i) => i !== userIndex);
         } else {
-            newFavorites = [...favoriteUsers, user as User];
+            newFavorites = [...currentFavorites, user as User];
         }
 
-        setFavoriteUsers(newFavorites);
         persistFavoriteUsers(newFavorites);
-    }, [user, favoriteUsers]);
+
+        window.dispatchEvent(new CustomEvent(FAVORITES_CHANGED_EVENT));
+    }, [user]);
 
     return { isFavorite, toggleFavorite, favoriteUsers };
 };
