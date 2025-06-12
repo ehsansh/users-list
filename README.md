@@ -47,7 +47,7 @@ Follow these instructions to get a local copy of the project up and running for 
     ```
 
 3.  **Set up environment variables:**
-    Create a file named `.env.local` in the root of the project. This variable controls how many users are fetched per API call for the infinite scroll.
+    Create a file named `.env.local` in the root of the project. You have to define 3 variables there. One for number of results per page and two urls for the API.
     ```
     NEXT_PUBLIC_RESULTS_PER_PAGE=10
     NEXT_PUBLIC_API_BASE_URL=https://randomuser.me/api/
