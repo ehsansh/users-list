@@ -1,6 +1,6 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
-import React from 'react';
+import React, { Suspense } from 'react';
 import styles from './ProfilePage.module.scss';
 import FavoriteButton from '@/components/favorite-button/FavoriteButton';
 import { User } from '@/types/user.types';
@@ -11,7 +11,9 @@ import { User } from '@/types/user.types';
  * - name: User's full name
  * - email: User's email address
  */
-const ProfilePage = () => {
+
+
+const ProfilePageContent = () => {
     const searchParams = useSearchParams();
     const name = searchParams.get('name');
     const email = searchParams.get('email');
@@ -35,5 +37,11 @@ const ProfilePage = () => {
         </div>
     );
 };
+
+const ProfilePage = () => (
+    <Suspense fallback={<div>Loading...</div>}>
+        <ProfilePageContent />
+    </Suspense>
+);
 
 export default ProfilePage;
