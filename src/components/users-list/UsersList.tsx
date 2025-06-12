@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { User } from '@/types/user.types';
 import UserCard from '@/components/user-card/UserCard';
 import styles from './UsersList.module.scss';
+
 interface UsersListProps {
     users: User[];
     lastUserElementRef?: (node: HTMLDivElement | null) => void;
@@ -9,18 +10,20 @@ interface UsersListProps {
 
 const UsersList = ({ users, lastUserElementRef }: UsersListProps) => {
     const lastElementIndex = users.length - 1;
-    return (
-        <div className={styles.userGrid}>
-            {users.map((user: User, index: number) => (
-                <div
-                    key={user.login.username}
-                    ref={index === lastElementIndex ? lastUserElementRef : null}
-                >
-                    <UserCard user={user} />
-                </div>
-            ))}
-        </div>
-    );
+
+    // Memoizing the mapped user list to prevent unnecessary recalculations
+    const memoizedUserList = useMemo(() => {
+        return users.map((user: User, index: number) => (
+            <div
+                key={user.login.username}
+                ref={index === lastElementIndex ? lastUserElementRef : null}
+            >
+                <UserCard user={user} />
+            </div>
+        ));
+    }, [users, lastUserElementRef]); // Recomputes only when `users` changes
+
+    return <div className={styles.userGrid}>{memoizedUserList}</div>;
 };
 
 export default UsersList;
