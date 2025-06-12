@@ -1,4 +1,3 @@
-
 /*
   TODO: Accessibility Improvements for this custom combobox.
 
@@ -11,7 +10,6 @@
     - Re-implement this component following the WAI-ARIA Combobox pattern. 
 */
 
-
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './NationalityFilter.module.scss';
 import { countryList } from '@/data/countries';
@@ -23,6 +21,14 @@ interface NationalityFilterProps {
     disabled: boolean;
 }
 
+/**
+ * Custom nationality filter component with searchable dropdown and country flags
+ * Features:
+ * - Searchable input field
+ * - Dropdown with country flags
+ * - Clear filter button
+ * - Click outside to close
+ */
 const NationalityFilter = ({
     currentNationality,
     setNationality,
@@ -32,16 +38,23 @@ const NationalityFilter = ({
     const [showDropdown, setShowDropdown] = useState(false);
     const wrapperRef = useRef<HTMLDivElement>(null);
 
+    /**
+     * Converts country code to full country name
+     * @param code Two-letter country code
+     * @returns Full country name or empty string if not found
+     */
     const getCountryName = (code: string) => {
         if (!code) return '';
         const country = countryList.find((c) => c.code === code);
         return country ? country.name : '';
     };
 
+    // Update input value when nationality filter changes
     useEffect(() => {
         setInputValue(getCountryName(currentNationality));
     }, [currentNationality]);
 
+    // Handle clicks outside the component to close dropdown
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
             if (
@@ -57,6 +70,12 @@ const NationalityFilter = ({
         };
     }, [wrapperRef]);
 
+    /**
+     * Handles input changes:
+     * - Updates input value
+     * - Shows dropdown if hidden
+     * - Clears filter if input is empty
+     */
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value);
         if (!showDropdown) {
@@ -71,18 +90,31 @@ const NationalityFilter = ({
         setShowDropdown(true);
     };
 
+    /**
+     * Handles country selection:
+     * - Updates nationality filter
+     * - Updates input value with country name
+     * - Closes dropdown
+     */
     const handleCountrySelect = (countryCode: string) => {
         setNationality(countryCode);
         setInputValue(getCountryName(countryCode));
         setShowDropdown(false);
     };
 
+    /**
+     * Clears the nationality filter:
+     * - Resets input value
+     * - Clears nationality filter
+     * - Closes dropdown
+     */
     const clearFilter = () => {
         setNationality('');
         setInputValue('');
         setShowDropdown(false);
     };
 
+    // Filter countries based on input value
     const filteredCountries = countryList.filter((country) =>
         country.name.toLowerCase().includes(inputValue.toLowerCase())
     );
