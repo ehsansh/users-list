@@ -1,6 +1,6 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import styles from './ProfilePage.module.scss';
 import FavoriteButton from '@/components/favorite-button/FavoriteButton';
 import { User } from '@/types/user.types';
@@ -22,6 +22,11 @@ const ProfilePageContent = () => {
         name: { first: name || '', last: '', title: '' },
         email: email || '',
     };
+
+    // Dynamically update page title when name changes
+    useEffect(() => {
+        document.title = `${name || 'User'}'s Profile`;
+    }, [name]);
 
     return (
         <div className={styles.profilePage}>
