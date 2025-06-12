@@ -4,6 +4,10 @@ import { User } from '@/types/user.types';
 const FAVORITES_KEY = 'favoriteUsers';
 const FAVORITES_CHANGED_EVENT = 'favoritesChanged';
 
+/**
+ * Retrieves the list of favorite users from localStorage
+ * @returns Array of User objects stored as favorites
+ */
 const getFavoriteUsers = (): User[] => {
     try {
         const favorites = localStorage.getItem(FAVORITES_KEY);
@@ -18,8 +22,10 @@ const getFavoriteUsers = (): User[] => {
     }
 };
 
-
-
+/**
+ * Saves the list of favorite users to localStorage
+ * @param users Array of User objects to persist
+ */
 const persistFavoriteUsers = (users: User[]) => {
     try {
         localStorage.setItem(FAVORITES_KEY, JSON.stringify(users));
@@ -28,6 +34,11 @@ const persistFavoriteUsers = (users: User[]) => {
     }
 };
 
+/**
+ * Custom hook for managing favorite users functionality
+ * @param user The user object to check/add/remove from favorites
+ * @returns Object containing favorite status, toggle function, list of favorites, and loading state
+ */
 export const useFavorite = (user: Partial<User> | null) => {
     const [favoriteUsers, setFavoriteUsers] = useState<User[]>([]);
     const [isFavorite, setIsFavorite] = useState(false);

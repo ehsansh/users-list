@@ -5,16 +5,20 @@ import styles from './ProfilePage.module.scss';
 import FavoriteButton from '@/components/favorite-button/FavoriteButton';
 import { User } from '@/types/user.types';
 
+/**
+ * Profile page component that displays user information
+ * Data is passed through URL query parameters:
+ * - name: User's full name
+ * - email: User's email address
+ */
 const ProfilePage = () => {
     const searchParams = useSearchParams();
     const name = searchParams.get('name');
     const email = searchParams.get('email');
-    const username = searchParams.get('username');
 
     const user: Partial<User> = {
         name: { first: name || '', last: '', title: '' },
         email: email || '',
-        login: { username: username || '' }
     };
 
     return (
