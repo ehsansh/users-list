@@ -31,6 +31,7 @@ const persistFavoriteUsers = (users: User[]) => {
 export const useFavorite = (user: Partial<User> | null) => {
     const [favoriteUsers, setFavoriteUsers] = useState<User[]>([]);
     const [isFavorite, setIsFavorite] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const handleFavoritesChange = () => {
@@ -38,6 +39,7 @@ export const useFavorite = (user: Partial<User> | null) => {
         };
 
         handleFavoritesChange();
+        setIsLoading(false);
 
         window.addEventListener(FAVORITES_CHANGED_EVENT, handleFavoritesChange);
         return () => {
@@ -74,5 +76,5 @@ export const useFavorite = (user: Partial<User> | null) => {
         window.dispatchEvent(new CustomEvent(FAVORITES_CHANGED_EVENT));
     }, [user]);
 
-    return { isFavorite, toggleFavorite, favoriteUsers };
+    return { isFavorite, toggleFavorite, favoriteUsers, isLoading };
 };

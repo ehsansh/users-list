@@ -3,9 +3,19 @@ import React from 'react';
 import { useFavorite } from '@/components/favorite-button/useFavorite';
 import UsersList from '@/components/users-list/UsersList';
 import styles from './FavoriteUsersPage.module.scss';
+import Loading from '@/components/loading/Loading';
 
 const FavoriteUsersPage = () => {
-    const { favoriteUsers } = useFavorite(null);
+    const { favoriteUsers, isLoading } = useFavorite(null);
+
+    if (isLoading) {
+        return (
+            <div className={styles.isLoading}>
+                <Loading />
+            </div>
+        );
+    }
+
     return (
         <div className={styles.favoriteUsersPage}>
             <h1 className={styles.favoriteUsersPage__title}>Favorite Users</h1>
