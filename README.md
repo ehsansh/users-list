@@ -80,6 +80,18 @@ The project follows a feature-sliced design approach to keep the codebase organi
 -   **Styling:** Component-level styling is achieved using SCSS Modules to ensure styles are locally scoped and prevent naming collisions.
 -   **State Management:** State is managed primarily with React Hooks (`useState`, `useEffect`, `useCallback`). For synchronizing the "favorite" status across components, the application uses a lightweight combination of `localStorage` and a custom browser event (`favoritesChanged`), avoiding the need for a heavier global state library.
 
+## Performance & Optimization
+
+To ensure a smooth user experience, the following performance optimizations have been implemented:
+
+-   **Debouncing:** The `useUsers` hook implements debouncing for API requests to prevent rapid and unnecessary network calls.
+-   **State-Level Throttling:** The `useUsers` hook is designed to keep a maximum of 200 users in the state at any time. This prevents the React component tree from becoming excessively large, which could lead to slower rendering and increased memory usage.
+-   **Component Memoization:** `React.memo` is used on the `UsersList` component to prevent unnecessary re-renders, ensuring that the list only updates when the user data actually changes.
+
+### Future Improvements: Virtualization
+
+For applications expecting to render many thousands of items, a more advanced optimization would be to implement "windowing" or "virtualization." A library like [**react-window**](https://www.npmjs.com/package/react-window) could be used. This technique ensures that only the items currently visible in the viewport are mounted in the DOM, offering significant performance gains for extremely large lists.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
